@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class Settings.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -47,10 +47,10 @@ class Settings extends Page
 
 	/// Directory where the photos are stored
 	static public $photos_dir;
-	
+
 	/// Directory where the thumbs are stored
 	static public $thumbs_dir;
-	
+
 	/// Directory where the configuration files are stored
 	static public $conf_dir;
 
@@ -92,7 +92,7 @@ class Settings extends Page
 
 	/// Remove registering options
 	static public $noregister	=	false;
-    
+
 	/// Force https on login/register screens
 	static public $forcehttps	    =	false;
 
@@ -130,7 +130,7 @@ class Settings extends Page
 
 	/// Available localizations
 	static public $ava_loc 	=	array();
-	
+
 	/// Available themes
 	static public $ava_themes 	=	array();
 
@@ -141,23 +141,23 @@ class Settings extends Page
 	static public $thumbs_size = 200;
 
 	/*** Video ***/
-	
+
 	///Video encode enable/disable
 	static public $encode_video	=	false;
-	
+
 	/// FFMPEg path (unix : /usr/bin/ffmpeg or win : c:\ffmpeg.exe)
 	static public $ffmpeg_path 		=	"/usr/bin/ffmpeg";
-	
+
 	///FFMPEG Option
 	static public $ffmpeg_option	=	"-threads 4 -vcodec libx264 -acodec libfdk_aac";
 
 
 	/**
 	 * Create Settings page
-	 * 
+	 *
 	 */
 	public function __construct(){
-		$this->folders = Menu::list_dirs(Settings::$photos_dir,true);
+		$this->folders = Navigation::list_dirs(Settings::$photos_dir,true);
 	}
 
 	/**
@@ -178,7 +178,7 @@ class Settings extends Page
 		/// Set default values for $config
 		$config->timezone = "Europe/Paris";
 
-		/// Load config.php file 
+		/// Load config.php file
 		if (!isset($config_file)){
 			$config_file		=	realpath(dirname(__FILE__)."/../../config.php");
 		}
@@ -209,7 +209,7 @@ class Settings extends Page
 
 		// Now, check that this stuff exists.
 		if(!file_exists(Settings::$photos_dir)){
-			if(! @mkdir(Settings::$photos_dir,0750,true)){	
+			if(! @mkdir(Settings::$photos_dir,0750,true)){
 				throw new Exception("PHOTOS dir '".Settings::$photos_dir."' doesn't exist and couldn't be created !");
 			}
 		}
@@ -272,7 +272,7 @@ class Settings extends Page
 			if(isset($admin_settings['loc'])){
 				Settings::$loc = $admin_settings['loc'];
 			}
-			
+
 			if(isset($admin_settings['user_theme'])){
 				Settings::$user_theme = $admin_settings['user_theme'];
 			}
@@ -330,7 +330,7 @@ class Settings extends Page
 
 	/**
 	 * Returns value of $t in selected language
-	 * 
+	 *
 	 */
 	static public function _($a,$t){
 		if(isset(Settings::$loc_chosen[$a][$t])){
@@ -345,7 +345,7 @@ class Settings extends Page
 
 		return $t;
 	}
-	
+
 	static public function toRegexp($i) {
 		return "!" . $i . "!";
 	}
@@ -354,7 +354,7 @@ class Settings extends Page
 		$t 		= strtolower($t);
 		$from 	= array("a", "e", "f", "g","l", "o", "s", "t","h", "c", "m","n", "r", "v", "w");
 		$to 	= array("4", "3", "ph", "9","1", "0", "5",  "7",'|-|', '(', '|\/|','|\|', '|2', '\/', '\/\/');
-    	
+
     	return preg_replace(array_map(array(Settings,toRegexp), $from), $to, $t);
 	}
 
@@ -403,10 +403,10 @@ class Settings extends Page
 	 * @author Thibaud Rohmer
 	 */
 	public static function gener_all($folder){
-		$files = Menu::list_files($folder,true);
+		$files = Navigation::list_files($folder,true);
 
-		if( !ini_get('safe_mode') ){ 
-			set_time_limit(1200); 
+		if( !ini_get('safe_mode') ){
+			set_time_limit(1200);
 		}
 
 		foreach($files as $file){
@@ -453,7 +453,7 @@ class Settings extends Page
 			}
 			echo ">".substr($p,0,-4)."</option>";
 		}
-		echo "</select>";			
+		echo "</select>";
 		echo "</div>";
 
 		/// User Theme
@@ -468,7 +468,7 @@ class Settings extends Page
 			}
 			echo ">$p</option>";
 		}
-		echo "</select>";			
+		echo "</select>";
 		echo "</div>";
 
 		echo "<h2>Options</h2>";
@@ -515,7 +515,7 @@ class Settings extends Page
 		echo "<label><input type='checkbox' name='encode_video' $c>Encode Video</label>\n";
 		echo "</div>";
 
-		
+
 		/// FFmpeg Path
 		echo "<div class='pure-control-group'>
 					<label>".Settings::_("settings","ffmpeg_path")."</label>

@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class Page.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -53,61 +53,65 @@ abstract class Page implements HTMLObject
 		 * @author Thibaud Rohmer
 		 */
 		public function header($head_content=NULL){
-			echo "<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>\n";
-			echo "<html>";
+			echo "<!DOCTYPE html>\n";
+			echo "<html>\n";
 			echo "<head>\n";
 			echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'>\n";
-			echo "<meta name='viewport' content='width=device-width, initial-scale=1'>\n";
+			echo "<meta name='viewport' content='width=device-width, initial-scale=1.0, minimum-scale=1.0'>\n";
 			echo "<title>".Settings::$name."</title>\n";
 			echo "<meta name='author' content='Thibaud Rohmer'>\n";
-			echo "<link rel='icon' type='image/ico' href='inc/favico.ico'>";
+			echo "<link rel='icon' type='image/ico' href='inc/favico.ico'>\n";
 
 			/// CSS
-			echo "<link rel='stylesheet' href='inc/stylesheets/pure-min.css'>\n";
-			echo "<link rel='stylesheet' href='inc/stylesheets/pure-grid.css'>\n";
-			echo "<link rel='stylesheet' href='inc/stylesheets/font-awesome.min.css'>\n";
-			
-			echo "<link rel='stylesheet' href='src/stylesheets/structure.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/buttons.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/theme.css' type='text/css' media='screen' charset='utf-8'>\n";
-			echo "<link rel='stylesheet' href='src/stylesheets/side-menu.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en'>\n";
+			echo "<link rel='stylesheet' href='https://fonts.googleapis.com/icon?family=Material+Icons'>\n";
+			echo "<link rel='stylesheet' href='https://code.getmdl.io/1.2.0/material.blue_grey-red.min.css' />\n";
+			// echo "<link rel='stylesheet' href='inc/css/pure-min.css'>\n";
+			// echo "<link rel='stylesheet' href='inc/css/pure-grid.css'>\n";
+			// echo "<link rel='stylesheet' href='inc/css/font-awesome.min.css'>\n";
 
-			echo "<link rel='stylesheet' href='user/themes/".Settings::$user_theme."/style.css' type='text/css' media='screen' charset='utf-8'>\n";
+			echo "<link rel='stylesheet' href='src/css/drawer.css'>\n";
+			// echo "<link rel='stylesheet' href='src/css/structure.css'>\n";
+			// echo "<link rel='stylesheet' href='src/css/buttons.css'>\n";
+			// echo "<link rel='stylesheet' href='src/css/theme.css'>\n";
+			// echo "<link rel='stylesheet' href='src/css/side-menu.css'>\n";
+
+			// echo "<link rel='stylesheet' href='user/themes/".Settings::$user_theme."/style.css'>\n";
 
 			/// Trick to hide "only-script" parts
-	 		echo "<noscript><style>.noscript_hidden { display: none; }</style></noscript>";
+			echo "<noscript><style>.noscript_hidden { display: none; }</style></noscript>\n";
 
 			/// JS
-			echo "<script src='inc/jquery.js'></script>\n";
-			echo "<script src='inc/jquery-ui.js'></script>\n";
-			echo "<script src='inc/mousewheel.js'></script>\n";
-			echo "<script src='inc/jquery.scrollTo.js'></script>\n";
-			echo "<script src='inc/jquery.fileupload.js'></script>\n";
+			echo "<script src='inc/js/jquery.js'></script>\n";
+			echo "<script src='inc/js/jquery-ui.js'></script>\n";
+			echo "<script src='inc/js/mousewheel.js'></script>\n";
+			echo "<script src='inc/js/jquery.scrollTo.js'></script>\n";
+			echo "<script src='inc/js/jquery.fileupload.js'></script>\n";
 			echo "<script src='inc/js/photosphere/three.min.js'></script>\n";
 			echo "<script src='inc/js/photosphere/sphere.js'></script>\n";
 
 
-			echo "<script src='src/js/menu.js'></script>\n";
-			echo "<script src='src/js/panel.js'></script>\n";
-			echo "<script src='src/js/slideshow.js'></script>\n";
-			echo "<script src='src/js/image_panel.js'></script>\n";
-			echo "<script src='src/js/keyboard.js'></script>\n";
+			// echo "<script src='src/js/menu.js'></script>\n";
+			// echo "<script src='src/js/panel.js'></script>\n";
+			// echo "<script src='src/js/slideshow.js'></script>\n";
+			// echo "<script src='src/js/image_panel.js'></script>\n";
+			// echo "<script src='src/js/keyboard.js'></script>\n";
 
 
 
 			if(CurrentUser::$admin || CurrentUser::$uploader){
-				echo "<link rel='stylesheet' href='inc/fileupload-ui.css' type='text/css' media='screen' charset='utf-8'>\n";
-				echo "<script src='inc/jquery.fileupload-ui.js'></script>\n";
+				echo "<link rel='stylesheet' href='inc/css/fileupload-ui.css'>\n";
+				echo "<script src='inc/js/jquery.fileupload-ui.js'></script>\n";
 				echo "<script src='src/js/admin.js'></script>\n";
 			}
 
-			// Add specific head content if needed
+			/// Add specific head content if needed
 			if ($head_content)
 			{
 				echo $head_content;
 			}
 
-			echo "</head>";
+			echo "</head>\n";
 
 		}
 }

@@ -1,12 +1,12 @@
 <?php
 /**
  * This file implements the class Board.
- * 
+ *
  *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -48,22 +48,19 @@ class Board implements HTMLObject
 {
 	/// Board title : name of the directory listed
 	private $title;
-    
+
     /// Header
     public $header_content;
-	
+
 	/// Path to listed directory
 	private $path;
-	
+
 	/// Paths to the files in the directory
 	private $files;
-	
+
 	/// Paths to the directories in the directory
 	private $dirs;
-	
-	/// Board header, containing the title and some buttons
-	private $header;
-	
+
 	/// Array of each line of the grid
 	private $boarditems=array();
 
@@ -73,11 +70,11 @@ class Board implements HTMLObject
 	/**
 	 * Board constructor
 	 *
-	 * @param string $path 
+	 * @param string $path
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($path=NULL){
-		
+
 		if(!isset($path)){
 			$path = CurrentUser::$path;
 		}
@@ -89,14 +86,13 @@ class Board implements HTMLObject
 		if(is_file($path)){
 			$this->path		=	dirname($path);
 		}
-		
+
 		$this->title	=	basename($this->path);
-		$this->header	=	new BoardHeader($this->title,$this->path);
-		$this->files	=	Menu::list_files($this->path);
-		$this->dirs		=	Menu::list_dirs($this->path);
+		$this->files	=	Navigation::list_files($this->path);
+		$this->dirs		=	Navigation::list_dirs($this->path);
 
         $pageURL = Settings::$site_address."/?f=".urlencode(File::a2r($this->path));
-        
+
         // generate the header - opengraph metatags for facebook
         $this->page_header = "<meta property=\"og:url\" content=\"".$pageURL."\"/>\n"
             ."<meta property=\"og:site_name\" content=\"".Settings::$name."\"/>\n"
@@ -125,7 +121,7 @@ class Board implements HTMLObject
                 if ( $i > 9){
                     break;
                 }
-                if(!Judge::view($d))	//Dir is not accessible (rights) - ignore it for better performance 
+                if(!Judge::view($d))	//Dir is not accessible (rights) - ignore it for better performance
                     continue;
                 $img = Judge::searchDir($d, true);
                 if ($img)
@@ -135,10 +131,10 @@ class Board implements HTMLObject
                 }
             }
         }
-		
+
 		$this->foldergrid();
 	}
-	
+
 
 	/**
 	 * Generate the grid, line by line
@@ -148,13 +144,13 @@ class Board implements HTMLObject
 	 */
 	private function grid($type="Image"){
 		$this->boarditems =	array();
-		
+
 		foreach($this->files as $file){
 			// Check rights
 			if(!(Judge::view($file))){
 				continue;
 			}
-			
+
 			// Check filetype
 			if (File::Type($file) != $type){
 				continue;
@@ -172,7 +168,7 @@ class Board implements HTMLObject
 	 */
 	private function foldergrid(){
 		foreach($this->dirs as $d){
-			if(!Judge::view($d))	//Dir is not accessible (rights) - ignore it for better performance 
+			if(!Judge::view($d))	//Dir is not accessible (rights) - ignore it for better performance
 				 continue;
 			$firstImg = Judge::searchDir($d);
 			if(!$firstImg){
@@ -200,9 +196,7 @@ class Board implements HTMLObject
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
-	public function toHTML(){		
-		// Output header
-		$this->header->toHTML();
+	public function toHTML(){
 
 		if(sizeof($this->boardfolders)>0){
 			echo "<div class='section sectiondir'>";
@@ -242,7 +236,7 @@ class Board implements HTMLObject
 			echo "</div>";
 		}
 
-		
+
 	}
-	
+
 }

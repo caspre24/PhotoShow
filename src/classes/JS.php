@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class JS.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -55,12 +55,12 @@ class JS extends Page
 		if(isset($_GET['j'])){
 			switch($_GET['j']){
 
-				case "Pag":		$m = new Menu();
+				case "Pag":		$m = new Navigation();
 								$p = new Board();
 								$ap = new AdminPanel();
 
 								echo "<div id='menu' class='menu'>\n";
-								
+
 								$m->toHTML();
 
 								echo "</div>\n";
@@ -81,7 +81,7 @@ class JS extends Page
 				case "Log":		$p = new LoginPage();
 								$p->toHTML();
 								break;
-				
+
 				case "Reg":		$p = new RegisterPage();
 								$p->toHTML();
 								break;
@@ -95,7 +95,7 @@ class JS extends Page
 								}
 								break;
 
-				case "Men":		$m = new Menu();
+				case "Men":		$m = new Navigation();
 								$m->toHTML();
 								break;
 
@@ -111,11 +111,11 @@ class JS extends Page
 				case "Jud":		$j = new Judge(CurrentUser::$path);
 								$j->toHTML();
 								break;
-				
+
 				case "Acc": 	$f = new Group();
 								$f->toHTML();
 								break;
-				
+
 				case "Comm":	$f = new Comments(CurrentUser::$path);
 								$f->toHTML();
 								break;
@@ -126,7 +126,7 @@ class JS extends Page
 	}
 
 	public function toHTML(){
-		
+
 	}
 }
 

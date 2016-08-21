@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements tools for unit tests
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -33,7 +33,7 @@
  * Unit test tools
  *
  * I used that for some debug. It's incomplete and I guess
- * It would be better to have a proper framework for unit 
+ * It would be better to have a proper framework for unit
  * test on PHP website. Anyway, it does not harm anyone for now
  *
  * @category  Website
@@ -92,13 +92,13 @@ class TestUnit extends PHPUnit_Framework_TestCase
 
     public static function include_all()
     {
-        $toinclude = array( 
+        $toinclude = array(
             realpath(dirname(__FILE__)."/../classes/HTMLObject.php"),
             realpath(dirname(__FILE__)."/../classes/Page.php"),
             realpath(dirname(__FILE__)."/../classes/File.php"),
             realpath(dirname(__FILE__)."/../classes/Account.php"),
             realpath(dirname(__FILE__)."/../classes/Group.php"),
-            realpath(dirname(__FILE__)."/../classes/Menu.php"),
+            realpath(dirname(__FILE__)."/../classes/Navigation.php"),
             realpath(dirname(__FILE__)."/../classes/GuestToken.php"),
             realpath(dirname(__FILE__)."/../classes/CurrentUser.php"),
             realpath(dirname(__FILE__)."/../classes/Video.php"),
@@ -205,7 +205,7 @@ class TestUnit extends PHPUnit_Framework_TestCase
 
     /*****************************************************/
     /* Functions used to setup scenarios for other tests */
-    /*                                                   */ 
+    /*                                                   */
     /* Such functions  must be added here and write only */
     /* unit test functions in XxxTest classes.           */
     /*****************************************************/
@@ -213,7 +213,7 @@ class TestUnit extends PHPUnit_Framework_TestCase
 
     /**
      * log you as an admin
-     * 
+     *
      */
     public function login_as_admin(){
         if( !CurrentUser::login("testadmin","testadminpassword") ){
@@ -223,7 +223,7 @@ class TestUnit extends PHPUnit_Framework_TestCase
 
     /**
      * log you as a testuser
-     * 
+     *
      */
     public function login_as_user($login = "testuser", $password = "testpassword"){
         if( !CurrentUser::login($login, $password) ){

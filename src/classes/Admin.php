@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class Admin.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -54,7 +54,7 @@
 
  	/**
  	 * Create admin page
- 	 * 
+ 	 *
  	 * @author Thibaud Rohmer
  	 */
  	public function __construct(){
@@ -70,32 +70,32 @@
 	 		switch($_GET['a']){
 	 			case "Abo" 		: 	$this->page = new AdminAbout();
 	 								break;
-	 								
+
 		 		case "Upl"		:	if(isset($_POST['path'])){
 		 								AdminUpload::upload();
 		 								CurrentUser::$path = File::r2a(stripslashes($_POST['path']));
 		 							}
 		 							break;
-				
+
 				case "Mov"		:	if(isset($_POST['pathFrom'])){
 										try{
-	 										CurrentUser::$path = File::r2a(dirname(stripslashes($_POST['pathFrom'])));	
+	 										CurrentUser::$path = File::r2a(dirname(stripslashes($_POST['pathFrom'])));
 										}catch(Exception $e){
 											CurrentUser::$path = Settings::$photos_dir;
 										}
 									}
 	 								Admin::move();
-	 								
+
 	 								if(isset($_POST['move']) && $_POST['move']=="rename"){
 										try{
 											if(is_dir(File::r2a(stripslashes($_POST['pathFrom'])))){
-	 											CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);	
+	 											CurrentUser::$path = dirname(File::r2a(stripslashes($_POST['pathFrom'])))."/".stripslashes($_POST['pathTo']);
 	 										}
 										}catch(Exception $e){
 											CurrentUser::$path = Settings::$photos_dir;
 										}
 									}
-		 							
+
 									break;
 
 				case "Del"		:	if(isset($_POST['del'])){
@@ -148,7 +148,7 @@
 				case "AAc"		:	Account::create($_POST['login'],$_POST['password'],$_POST['verif']);
 									$this->page = new Group();
 									break;
-				
+
 				case "AGA"		:	$a = new Account($_POST['acc']);
 									$a->add_group($_POST['group']);
 									$a->save();
@@ -182,7 +182,7 @@
 
 				case "EdA"		:	$this->page = new Group();
 									break;
-				
+
 				case "GAl"		:	if(isset($_POST['path'])){
 										Settings::gener_all(File::r2a(stripslashes($_POST['path'])));
 									}
@@ -193,9 +193,9 @@
 									break;
 		 		}
 		}
-		
+
 		if(!isset($this->page)){
-			$this->page = new AdminAbout();			
+			$this->page = new AdminAbout();
 		}
 
 	 	/// Create menu
@@ -205,12 +205,12 @@
 
  	/**
  	 * Move files on the server
- 	 * 
+ 	 *
  	 * @author Thibaud Rohmer
  	 */
  	public static function move(){
 
- 		/// Just to be really sure... 
+ 		/// Just to be really sure...
  		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
  			return;
  		}
@@ -251,12 +251,12 @@
 
  	/**
  	 * Delete files on the server
- 	 * 
+ 	 *
  	 * @author Thibaud Rohmer
  	 */
  	public function delete(){
 
- 		/// Just to be really sure... 
+ 		/// Just to be really sure...
  		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
  			return;
  		}
@@ -274,7 +274,7 @@
 
 	/**
 	 * Reccursively delete all files in $dir
-	 * 
+	 *
 	 * @param string $dir
 	 * @author Thibaud Rohmer
 	 */
@@ -287,13 +287,13 @@
 			return unlink($dir);
 		}
 
-		$dirs 	=	Menu::list_dirs($dir);
-		$files 	= 	Menu::list_files($dir,false,true);
+		$dirs 	=	Navigation::list_dirs($dir);
+		$files 	= 	Navigation::list_files($dir,false,true);
 
 		foreach($dirs as $d){
 			Admin::rec_del($d);
 		}
-		
+
 		foreach($files as $f){
 			unlink($f);
 		}
@@ -304,18 +304,18 @@
 
 	 /**
 	  * Display admin page
-	  * 
+	  *
 	  * @author Thibaud Rohmer
 	  */
 	public function toHTML(){
 		$this->header();
 		echo "<body>";
 
-		echo "<div id='layout'>\n";	
+		echo "<div id='layout'>\n";
 
 		echo "<a href='#menu' id='menuLink' class='menu-link'><span></span></a>";
 		echo "<div id='menu'><div class='pure-menu menu pure-menu-open'>\n";
-		
+
  		$this->menu->toHTML();
  		echo "</div>\n";
 	 	echo "</div>";
@@ -323,12 +323,12 @@
 		if(isset($_GET['a']) && $_GET['a']=="JS"){
 			$this->page = new JS();
 		}else{
-		 	$this->page->toHTML();			
+		 	$this->page->toHTML();
 		}
 
 	 	echo "</div>";
-		echo "<script src='inc/ui.js'></script>\n";
- 
+		echo "<script src='inc/js/ui.js'></script>\n";
+
 	}
 
  }

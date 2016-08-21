@@ -1,11 +1,11 @@
 <?php
 /**
  * This file contains the website configuration.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -31,11 +31,11 @@
 
 // Folder where your pictures are stored.
 // Must be at least readable by web server process
-$config->photos_dir   = "path_to_your_photos_dir_goes_here";
+$config->photos_dir   = "/data/photos";
 
 // Folder where PhotoShow parameters and thumbnails are stored.
 // Must be writable by web server process
-$config->ps_generated   = "path_where_photoshow_generates_files_goes_here";
+$config->ps_generated   = "/data/gen";
 
 // Local timezone. Default one is "Europe/Paris".
 #$config->timezone = "Europe/Paris";

@@ -1,0 +1,27 @@
+.menu_level.level-0 {
+    margin-left: 0;
+}
+
+.menu_level.level-1 {
+    margin-left: 20px;
+}
+
+.menu_level.level-2 {
+    margin-left: 40px;
+}
+
+.menu_level.level-3 {
+    margin-left: 60px;
+}
+
+.drawer-header {
+  padding: 16px;
+}
+
+.drawer-header .mdl-layout-title {
+    margin-bottom: 16px;
+}
+
+.account-dropdown {
+  width: 100%;
+}

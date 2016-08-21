@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class File.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -46,61 +46,61 @@ class File
 {
 	/// Path to the file
 	public $path;
-	
+
 	/// File extension
 	public $extension;
-	
+
 	/// File name
 	public $name;
-	
+
 	/// File type
 	public $type;
-	
+
 	/**
 	 * Check that file exists, and parse its infos (extension,name,type)
 	 *
-	 * @param string $path 
+	 * @param string $path
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($path){
-		
+
 		/// Check that file exists
 		if(!file_exists($path))
 			throw new Exception("The file doesn't exist !");
-		
+
 		/// Set variables
 		$this->path			=	$path;
 		$this->extension	=	self::Extension($path);
-		$this->name			=	self::Name($path);	
+		$this->name			=	self::Name($path);
 		$this->type			=	self::Type($path);
-		$this->root			=	self::Root();		
+		$this->root			=	self::Root();
 	}
-	
+
 	/**
 	 * Return the root directory
 	 *
 	 * @return void
-	 * @author Cédric Levasseur
+	 * @author CÃ©dric Levasseur
 	 */
 	public static function Root(){
 		return realpath(dirname(__FILE__)."/../../");
-	}	
-	
+	}
+
 	/**
 	 * Return the extension of $file
 	 *
-	 * @param string $file 
+	 * @param string $file
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
 	public static function Extension($file){
 		return pathinfo($file,PATHINFO_EXTENSION);
 	}
-	
+
 	/**
 	 * Return the name of $file, without the extension
 	 *
-	 * @param string $file 
+	 * @param string $file
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
@@ -112,11 +112,11 @@ class File
 			return basename($file);
 		}
 	}
-	
+
 	/**
 	 * Return the type of $file
 	 *
-	 * @param string $file 
+	 * @param string $file
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
@@ -132,25 +132,25 @@ class File
 		}
 
 		$types	=	array();
-		
+
 		$types['Image'][]	=	"png";
 		$types['Image'][]	=	"jpg";
 		$types['Image'][]	=	"jpeg";
 		$types['Image'][]	=	"tiff";
 		$types['Image'][]	=	"gif";
-		
+
 		$types['Video'][]	=	"flv";
 		$types['Video'][]	=	"mov";
 		$types['Video'][]	=	"mpg";
-		$types['Video'][]	=	"mp4";		
-		$types['Video'][]	=	"ogv";		
-		$types['Video'][]	=	"mts";		
-		$types['Video'][]	=	"3gp";		
-		$types['Video'][]	=	"webm";			
-		
-		
+		$types['Video'][]	=	"mp4";
+		$types['Video'][]	=	"ogv";
+		$types['Video'][]	=	"mts";
+		$types['Video'][]	=	"3gp";
+		$types['Video'][]	=	"webm";
+
+
 		$types['File'][]	=	"xml";
-		
+
 		/// Find file type
 		foreach($types as $type=>$typetab){
 			if(in_array($ext,$typetab)){
@@ -160,11 +160,11 @@ class File
 		return 0;
 
 	}
-	
+
 	/**
 	 * Absolute path comes in, relative path goes out !
 	 *
-	 * @param string $file 
+	 * @param string $file
 	 * @param string $dir Directory from where the relative path will be (if NULL : photos_dir)
 	 * @return void
 	 * @author Thibaud Rohmer
@@ -173,10 +173,10 @@ class File
 		if(!isset($dir)){
 			$dir		=	Settings::$photos_dir;
 		}
-		
+
 		$rf	=	realpath($file);
 		$rd =	realpath($dir);
-		
+
 		if($rf==$rd) return "";
 
 		if( substr($rf,0,strlen($rd)) != $rd ){
@@ -189,8 +189,8 @@ class File
 	/**
 	 * Relative path comes in, absolute path goes out !
 	 *
-	 * @param string $file 
-	 * @param string $dir 
+	 * @param string $file
+	 * @param string $dir
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
@@ -198,14 +198,14 @@ class File
 		if(!isset($dir)){
 			$dir		=	Settings::$photos_dir;
 		}
-		
+
 		return $dir."/".$file;
 	}
-	
+
 	/**
 	 * Path comes in, relative and absolute path come out
 	 *
-	 * @param string $path 
+	 * @param string $path
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
@@ -221,19 +221,19 @@ class File
 			$rel		=	$path;
 			$abs		=	File::r2a($path,$dir);
 		}
-		
+
 		return array($rel,$abs);
 	}
 
 	/**
 	 * Returns absolute path to next item
-	 * 
+	 *
 	 * @param string $path
 	 * @return $next
 	 * @author Thibaud Rohmer
 	 */
 	 public static function next($path){
-	 	$files 	= 	Menu::list_files(dirname($path));
+	 	$files 	= 	Navigation::list_files(dirname($path));
 	 	$pos 	=	array_search($path,$files);
 
 	 	if( isset($pos) && $pos < sizeof($files) - 1 ){
@@ -247,13 +247,13 @@ class File
 
 	/**
 	 * Returns absolute path to previous item
-	 * 
+	 *
 	 * @param string $path
 	 * @return $prev
 	 * @author Thibaud Rohmer
 	 */
 	 public static function prev($path){
-	 	$files 	=	Menu::list_files(dirname($path));
+	 	$files 	=	Navigation::list_files(dirname($path));
 	 	$pos 	=	array_search($path,$files);
 
 	 	if( isset($pos) && $pos > 0 ){

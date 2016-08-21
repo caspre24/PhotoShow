@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class Judge.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -48,16 +48,16 @@ class Judge
 {
 	/// Absolute path to rights file for requested file
 	public $path;
-	
+
 	/// True if requested file is public
 	public $public=false;
-	
+
 	/// Groups allowed to see requested file
 	public $groups=array();
-	
+
 	/// Users allowed to see requested file
 	public $users=array();
-	
+
 	/// Name of requested file
 	public $filename;
 
@@ -77,8 +77,8 @@ class Judge
 	/**
 	 * Create a Judge for a specific file.
 	 *
-	 * @param string $f 
-	 * @param string $read_rights 
+	 * @param string $f
+	 * @param string $read_rights
 	 * @author Thibaud Rohmer
 	 */
 	public function __construct($f, $read_rights=true){
@@ -111,16 +111,16 @@ class Judge
 		}
 
 	}
-	
+
 	/**
 	 * Get path to rights file associated to our file
 	 *
-	 * @param string $f 
+	 * @param string $f
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
 	private function set_path($f){
-		
+
 		$basefile	= 	new File($f);
 		$basepath	=	File::a2r($f);
 
@@ -135,7 +135,7 @@ class Judge
 		$this->path =	File::r2a($rightsfile,Settings::$thumbs_dir);
 
 	}
-	
+
 	/**
 	 * Get rights (recursively) for the file
 	 *
@@ -158,25 +158,25 @@ class Judge
 				$this->users[]=(string)$u;
 
 		}catch(Exception $e){
-		
+
 			/// If no rights file found, check in the containing directory
 			try{
 				// Look up
 
 				$up		=	dirname($this->file);
 				$j = new Judge($up);
-				
+
 				$this->groups 	= $j->groups;
 				$this->users 	= $j->users;
 				$this->public 	= $j->public;
 
 
 			}catch(Exception $e){
-				
+
 				// We are as high as possible
 				$this->public	=	true;
 				$this->groups	=	array();
-				$this->users	=	array();		
+				$this->users	=	array();
 			}
 		}
 	}
@@ -190,7 +190,7 @@ class Judge
 			return $associated_dir;
 		}else{
 			return $associated_dir."/".substr(basename($rf),1,-11);
-		}		
+		}
 	}
 
 
@@ -199,13 +199,13 @@ class Judge
 	 */
 	public static function searchDir($dir,$public_search = false){
 
-		foreach(Menu::list_files($dir) as $f){
+		foreach(Navigation::list_files($dir) as $f){
 			if(Judge::view($f)){
 				return $f;
 			}
 		}
 
-		foreach(Menu::list_dirs($dir) as $d){
+		foreach(Navigation::list_dirs($dir) as $d){
 			if(($f=Judge::searchDir($d, $public_search)) != NULL){
 				return $f;
 			}
@@ -221,10 +221,10 @@ class Judge
 	 * @author Thibaud Rohmer
 	 */
 	public function save(){
-		
+
 		/// Create xml
 		$xml		=	new SimpleXMLElement('<rights></rights>');
-		
+
 		/// Put values in xml
 		$xml->addChild('public',$this->public);
 		$xml_users	=	$xml->addChild('users');
@@ -235,20 +235,20 @@ class Judge
 
 		foreach($this->groups as $group)
 			$xml_groups->addChild("group",$group);
-		
+
 		if(!file_exists(dirname($this->path))){
 			@mkdir(dirname($this->path),0750,true);
 		}
 		/// Save xml
 		$xml->asXML($this->path);
 	}
-	
+
 	/**
 	 * Edit rights of the Judge. Because you can.
 	 *
-	 * @param string $f 
-	 * @param string $groups 
-	 * @param string $users 
+	 * @param string $f
+	 * @param string $groups
+	 * @param string $users
 	 * @return void
 	 * @author Thibaud Rohmer
 	 */
@@ -275,13 +275,13 @@ class Judge
 		if(isset($users)){
 			$rights->users =	$users;
 		}
-		
+
 		$rights->public	=	( !$private ) ? 1 : 0;
-		
+
 		// Save the Judge
 		$rights->save();
 	}
-	
+
 	/**
 	 * Returns true if the file to access is in the sub-path of the main directory
 	 *
@@ -293,7 +293,7 @@ class Judge
 
 		$rf =	realpath($f);
 		$rd =	realpath(Settings::$photos_dir);
-		
+
 		if($rf == $rd) return true;
 
 		if( substr($rf,0,strlen($rd)) == $rd ){
@@ -311,8 +311,8 @@ class Judge
 	 * @author Thibaud Rohmer
 	 */
 	public static function view($f){
-		
-		// Check if user has an account		
+
+		// Check if user has an account
 		if(!isset(CurrentUser::$account) && !isset(CurrentUser::$token)){
 			// User is not logged in
 			$judge	=	new Judge($f);
@@ -328,7 +328,7 @@ class Judge
 
 		// Create Judge
 		$judge	=	new Judge($f);
-		
+
 		// Public file
 		if($judge->public){
 			return true;
@@ -352,7 +352,7 @@ class Judge
                 return true;
             }
         }
-        
+
 
 		return false;
 	}
@@ -412,11 +412,11 @@ class Judge
 	/**
 	 * Display the rights on website, and let
 	 * the admin edit them.
-	 * 
+	 *
 	 * @author Thibaud Rohmer
 	 */
 	public function toHTML(){
-		
+
 		echo "<div class='adminrights'>\n";
 
 
@@ -441,7 +441,7 @@ class Judge
 			echo "<h3>".Settings::_("judge","accounts")."</h3>";
 			echo "<ul>";
 			foreach(Account::findAll() as $account){
-			
+
 				if(in_array($account['login'], $this->users)){
 					$checked = "checked";
 				}else{
@@ -467,7 +467,7 @@ class Judge
 			}
 			echo "<input type='submit' class='pure-button pure-button-primary button-small' value='".Settings::_("judge","set")."'>\n";
         	echo "</ul>";
-        	
+
     	    echo "<h3>Guest Tokens</h3>";
     	    if(!$this->multi){
 	        // Token creation

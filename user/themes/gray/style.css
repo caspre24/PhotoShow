@@ -1,0 +1,86 @@
+body {
+/*	color: black;
+	font-family: "Roboto-Regular", sans-serif;*/
+	background: #F5F5F5;
+}
+
+
+h2{
+	color: #212121;
+}
+
+h3{
+	color: #212121;
+}
+
+.header{
+	background: #616161;
+}
+
+.header h1 {
+	color: white;
+}
+
+/*
+ * Left Menu
+ */
+
+#menu {
+	background: #9E9E9E;
+	border: none;
+	box-shadow: 0 2px 5px rgba(0,0,0,.26);
+}
+
+#menu #logo {
+	background: #616161;
+	color: white;
+	border: none;
+	box-shadow: 0 2px 5px rgba(0,0,0,.26);
+}
+
+#menu #rss {
+	position: absolute;
+	top: 12px;
+	right: 12px;
+}
+
+li.currentSelected a {
+	color: #0078e7 !important;
+}
+
+.pure-menu li a {
+	color: #212121;
+}
+
+/*
+ * Content Pane
+ */
+
+div.directory .dirname {
+	background: #F5F5F5;
+	color: #212121;
+	border-bottom: 1px solid #BDBDBD;
+    left: -1px;
+    right: -1px;
+}
+
+/*
+ * Menu Right*/
+
+#menuright{
+	/*background: #9E9E9E;*/
+	background: #F5F5F5;
+}
+
+div #menuright-header{
+	background: #616161;
+}
+
+div.infos_img > div.infos_title {
+	background: #9E9E9E;
+	color: white;
+}
+
+div.infos_img > a.floating-action {
+	background: #0078e7;
+}

@@ -1,11 +1,11 @@
 <?php
 /**
  * This file implements the class AdminUpload.
- * 
+ *
  * PHP versions 4 and 5
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
@@ -54,13 +54,13 @@
 
  	/**
  	 * Create upload page
- 	 * 
+ 	 *
  	 * @author Thibaud Rohmer
  	 */
  	public function __construct(){
 
  		/// Get all subdirs
- 		$list_dirs = Menu::list_dirs(Settings::$photos_dir,true);
+ 		$list_dirs = Navigation::list_dirs(Settings::$photos_dir,true);
 
  		foreach ($list_dirs as $dir){
  			$this->dirs[] = File::a2r($dir);
@@ -74,13 +74,13 @@
 
  	/**
  	 * Upload files on the server
- 	 * 
+ 	 *
  	 * @author Thibaud Rohmer
  	 */
  	public function upload(){
 
  		$allowedExtensions = array("tiff","jpg","jpeg","gif","png");
-		
+
 		/// Just to be really sure ffmpeg is enabled - necessary to generate thumbnail jpg and webm
 		if (Settings::$encode_video) {
 			array_push($allowedExtensions,"flv","mov","mpg","mp4","ogv","mts","3gp","webm");
@@ -88,14 +88,14 @@
 
 		$already_set_rights = false;
 
- 		/// Just to be really sure... 
+ 		/// Just to be really sure...
  		if( !(CurrentUser::$admin || CurrentUser::$uploader) ){
  			return;
  		}
 
  		/// Set upload path
  		$path = stripslashes(File::r2a($_POST['path']));
- 		
+
  		/// Create dir and update upload path if required
  		if(strlen(stripslashes($_POST['newdir']))>0 && !strpos(stripslashes($_POST['newdir']),'..')){
 
@@ -110,7 +110,7 @@
  				if(isset($_POST['public'])){
  					Judge::edit($path);
  				}else{
- 					Judge::edit($path,$_POST['users'],$_POST['groups']);					
+ 					Judge::edit($path,$_POST['users'],$_POST['groups']);
  				}
  			}
  			$already_set_rights = true;
@@ -124,18 +124,18 @@
 
 				// Name of the stored file
 		        $tmp_name = $_FILES["images"]["tmp_name"][$key];
-		
+
 				// Name on the website
 		        $name = $_FILES["images"]["name"][$key];
-				
+
 				$info = pathinfo($name);
 				$base_name =  basename($name,'.'.$info['extension']);
-		
+
 				// Check filetype
 				if(!in_array(strtolower($info['extension']),$allowedExtensions)){
 					continue;
 				}
-				
+
 				// Rename until this name isn't taken
 				$i=1;
 				while(file_exists("$path/$name")){
@@ -154,7 +154,7 @@
  					if(isset($_POST['public'])){
  						Judge::edit("$path/$name");
  					}else{
- 						Judge::edit("$path/$name",$_POST['users'],$_POST['groups']);					
+ 						Judge::edit("$path/$name",$_POST['users'],$_POST['groups']);
  					}
  				}
 			}
@@ -163,7 +163,7 @@
 
  	/**
  	 * Display upload page on website
- 	 * 
+ 	 *
  	 * @author Thibaud Rohmer
  	 */
  	public function toHTML(){
@@ -192,7 +192,7 @@
  			echo "<label><input type='checkbox' name='groups[]' value='".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')."' checked /> ".htmlentities($group['name'], ENT_QUOTES ,'UTF-8')." </label>";
  		}
  		echo 	"</div></fieldset>";
- 	
+
  		echo 	"<fieldset><span>Users</span><div>";
  		foreach(Account::findAll() as $account){
  			echo "<label><input type='checkbox' name='users[]' value='".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')."' checked /> ".htmlentities($account['login'], ENT_QUOTES ,'UTF-8')." </label>";

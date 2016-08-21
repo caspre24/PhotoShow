@@ -1,10 +1,10 @@
 /**
  * This file implements admin.
- * 
+ *
  * Javascript
  *
  * LICENSE:
- * 
+ *
  * This file is part of PhotoShow.
  *
  * PhotoShow is free software: you can redistribute it and/or modify
